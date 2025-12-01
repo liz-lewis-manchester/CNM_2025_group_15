@@ -1,1 +1,9 @@
-
+import numpy as np 
+import pandas as pd 
+L=20
+dx=0.2
+x_grid =np.arange(0, L + dx, dx)
+df=pd.read_csv("initial_conditions.csv")
+x_data = df["x"].values
+theta_data = df["concentration"].values
+theta_initial= np.interp(x_grid, x_data, theta_data)
