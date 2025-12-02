@@ -18,7 +18,21 @@ grid_properties = {
 
 return x, grid_properties
 
-#Creating a time grid where T is the time and dt is the change in time
+#####
+
+#Creating a time grid where T is the total time of the resolution and dt is the temporal resolution
 def model_time_grid (T, dt)
 
+if dt <= 0
+  raise Value Error("dt must be a positive value and cannot be zero")
 
+nt = int(np.round(T / dt)) + 1 #Number of time points
+t = np.linspace(0, nt*dt, ) #Temporal grid that starts at zero and ends at 
+
+grid_properties = {
+  "T": L,
+  "dt": dx,
+  "nt": nx
+}
+
+return t, grid_properties
