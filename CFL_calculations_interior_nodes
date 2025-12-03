@@ -1,0 +1,55 @@
+#CODE CONTAINS
+##finding finite difference updates on interior nodes using advection equation
+##calculating CFL number (U*dt/dx) 
+##warning for values that are instable - e.g CFL>1
+#####################################################################
+#EQUATIONS
+#advection equation is (dtheta)/(dt)+u(dtheta)/(dx)=0
+#CFL number = max(|u|)*dt/dx
+#####################################################################
+#INPUT AND OUTPUT VARIABLES
+#variables needed from previous work - theta, u, dx, dt
+#code gives theta_new (concentration array), cfl (CFL number) using upsteam_step function created
+#####################################################################
+import numpy as np
+
+def upstream_step(theta, u, dx, dt): #creating function
+  theta = np.asarray(theta) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
+  N = len(theta)#"
+
+  if np.isscalar(u): #for scalar velocity #converting velocity data to arrays 
+    u_array = np.full(N, float(u))
+
+  else: #for variant velocity
+    u_array = np.asarray(u, dtype=float)
+
+    if len(u_array) == N-1: #for node based averaging (working with interior nodes)
+      u_node = np.empty(N) #np.empty is faster than np.zeros
+      u_node[0] = u_array[0]
+      u_node[-1] = u_array[-1]
+
+      if N>2:
+        u_node[1:-1] = 0.5*(u_array[:-1]+u_array[1:])
+
+      u_array = u_node
+
+    elif len(u_array) == N:
+      pass
+
+    else:
+      raise ValueError("Velocity value(s) must either be scalar, of length N, or of length N-1")
+  
+  cfl = np.max(np.abs(u_array))*dt/dx #finding cfl number for advection equation
+  theta_new = theta.copy() #output value, copy so users input values are not messed with
+  
+  i = np.arange(1, N-1)  #finding the interior points and indices
+  u_i = u_array[i]
+
+  difference_backwards = theta[i] - theta[i-1] #finding finite differences (using old time step variables to find theta_new)
+  difference_forwards = theta[i+1] - theta[i]
+  upstream_difference = np.where(u_i>=0, difference_backwards, difference_forwards) #computing upstream directions
+  
+  theta_new[i] = theta[i] - (u_i*dt/dx)*upstream_difference
+
+  return theta_new, float(cfl) #function gives these values
+print (f"theta_new is {theta_new} and cfl number is{cfl}.")
