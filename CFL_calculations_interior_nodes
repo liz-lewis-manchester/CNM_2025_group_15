@@ -14,7 +14,7 @@
 import numpy as np
 
 def upstream_step(theta, u, dx, dt): #creating function
-  theta = np.asarray(theta) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
+  theta = np.asarray(theta, dtype=float) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
   N = len(theta)#"
 
   if np.isscalar(u): #for scalar velocity #converting velocity data to arrays 
@@ -52,4 +52,3 @@ def upstream_step(theta, u, dx, dt): #creating function
   theta_new[i] = theta[i] - (u_i*dt/dx)*upstream_difference
 
   return theta_new, float(cfl) #function gives these values
-print (f"theta_new is {theta_new} and cfl number is{cfl}.")
