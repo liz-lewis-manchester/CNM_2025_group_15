@@ -27,7 +27,7 @@ if dt <= 0
   raise Value Error("dt must be a positive value and cannot be zero")
 
 nt = int(np.round(T / dt)) + 1 #Number of time points
-t = np.linspace(0, nt*dt, ) #Temporal grid that starts at zero and ends at 
+t = np.linspace(0, nt*dt, nt + 1) #Temporal grid that starts at zero
 
 grid_properties = {
   "T": L,
