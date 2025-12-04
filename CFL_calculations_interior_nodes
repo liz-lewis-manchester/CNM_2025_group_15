@@ -41,9 +41,9 @@ def upstream_step(theta, u, dx, dt): #creating function
   
   cfl = np.max(np.abs(u_array))*dt/dx #finding cfl number for advection equation
   if cfl>1: #warning for time steps too large
-    print (f"WARNING - CFL value is {cfl:.3f}, whis is >1 therefore stability threshold is exceeded")
+    print (f"WARNING - CFL value is {cfl:.3f}, whis is > 1, therefore the stability threshold is exceeded")
   elif cfl>0.8:#making user aware of values that are unstable
-    print (f"NOTE - CFL value is {cfl:.3f}, which is close to 1 therefore near stability threshold")
+    print (f"NOTE - CFL value is {cfl:.3f}, which is close to 1, therefore approaching stability threshold")
 
   theta_new = theta.copy() #output value, copy so users input values are not messed with
   
