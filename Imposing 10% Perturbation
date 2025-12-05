@@ -1,0 +1,27 @@
+This file contains the code to impose a random 10% pertruabtion onto the velocity profile.
+The simulation is run again after the pertubation is added.
+A comparison in the form of a chart will be produced.
+
+Run this after adding advection solver.
+
+Files:
+#advection equation is (dtheta)/(dt)+u(dtheta)/(dx)=0
+#CFL number = max(|u|)*dt/dx
+    src/
+        advect.py          -> your advection solver
+    results/
+        (plots will be saved here)
+
+This script:
+    - Applies a 10% random perturbation to velocity
+    - Runs the perturbed simulation
+    - Plots and saves comparisons
+
+Create seeded random pertuabtions so results are reproducible
+
+np.random.seed(42) 
+eps = 0.10
+noise = eps * np.random.randn(N)
+U_pertubed = U * (1 + noise)
+
+
