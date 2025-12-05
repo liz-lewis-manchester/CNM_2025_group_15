@@ -24,4 +24,16 @@ eps = 0.10
 noise = eps * np.random.randn(N)
 U_pertubed = U * (1 + noise)
 
+Create plots of results
+
+plt.figure(figsize=(10,5))
+plt.plot(x, U0 * np.ones_like(x), label="Constant velocity", linewidth=2)
+plt.plot(x, U_variable, label="10% perturbed velocity", linewidth=2)
+plt.xlabel("Distance along river (m)")
+plt.ylabel("Velocity (m/s)")
+plt.title("Velocity Profile With ±10% Random Perturbation")
+plt.legend()
+plt.grid(True)
+plt.show()
+
 
