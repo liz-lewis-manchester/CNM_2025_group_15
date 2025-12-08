@@ -11,11 +11,10 @@
 #variables needed from previous work - theta, u, dx, dt
 #code gives theta_new (concentration array), cfl (CFL number) using upsteam_step function created
 #####################################################################
-import numpy as np
 
 def upstream_step(theta, u, dx, dt): #creating function
   theta = np.asarray(theta, dtype=float) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
-  N = len(theta)#"
+  N = len(theta)
 
   if np.isscalar(u): #for scalar velocity #converting velocity data to arrays 
     u_array = np.full(N, float(u))
@@ -40,8 +39,10 @@ def upstream_step(theta, u, dx, dt): #creating function
       raise ValueError("Velocity value(s) must either be scalar, of length N, or of length N-1")
   
   cfl = np.max(np.abs(u_array))*dt/dx #finding cfl number for advection equation
+
   if cfl>1: #warning for time steps too large
-    print (f"WARNING - CFL value is {cfl:.3f}, whis is > 1, therefore the stability threshold is exceeded")
+    print (f"WARNING - CFL value is {cfl:.3f}, which is > 1, therefore the stability threshold is exceeded")
+
   elif cfl>0.8:#making user aware of values that are unstable
     print (f"NOTE - CFL value is {cfl:.3f}, which is close to 1, therefore approaching stability threshold")
 
@@ -52,6 +53,7 @@ def upstream_step(theta, u, dx, dt): #creating function
 
   difference_backwards = theta[i] - theta[i-1] #finding finite differences (using old time step variables to find theta_new)
   difference_forwards = theta[i+1] - theta[i]
+
   upstream_difference = np.where(u_i>=0, difference_backwards, difference_forwards) #computing upstream directions
   
   theta_new[i] = theta[i] - (u_i*dt/dx)*upstream_difference
