@@ -1,6 +1,6 @@
 #import functions for spatial grid, time grid, upstream step, boundary conditions, load and interpolate initial conditions 
 import matplotlib.pylot as plt
-from src.solver_functions import model_spatial_grid, model_time_grid, upstream_step, apply_boundary_conditions, generate_intial_conditions, 
+from src.solver_functions import model_spatial_grid, model_time_grid, upstream_step, apply_boundary_conditions, generate_intial_conditions 
 
 #using plot_snapshots to create consistent plots without repeating lots of code
 def plot_snapshots(results, x, dt, title):
