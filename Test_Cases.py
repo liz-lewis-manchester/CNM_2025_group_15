@@ -1,5 +1,6 @@
-#import functions for spatial grid, time grid, upstream step, boundary conditions, loaf an interpolate IC
-from src.solver_functions import()
+#import functions for spatial grid, time grid, upstream step, boundary conditions, load and interpolate initial conditions 
+import matplotlib.pylot as plt
+from src.solver_functions import model_spatial_grid, model_time_grid, upstream_step, apply_boundary_conditions, generate_intial_conditions, 
 
 #using plot_snapshots to create consistent plots without repeating lots of code
 def plot_snapshots(results, x, dt, title):
@@ -8,7 +9,7 @@ def plot_snapshots(results, x, dt, title):
 
     plt.figure(figsize=(8,4))
     for ti in times:
-        plt.plot(x, results[ti], label=f"t"{ti*dt:.0f}s")
+        plt.plot(x, results[ti], label=f"t{ti*dt:.0f}s")
 
     plt.title(title)
     plt.xlabel("Distance (m)")
@@ -19,7 +20,7 @@ def plot_snapshots(results, x, dt, title):
     plt.show()
 
 #to avoid repeating time loops
-def run_simulation(theta0, u, x, t, BC="sero_gradient"):
+def run_simulation(theta0, u, x, t, BC="zero_gradient"):
     dx = x[1] - x[0]   
     dt = t[1] - t[0]
     nt = len(t)
@@ -30,7 +31,7 @@ def run_simulation(theta0, u, x, t, BC="sero_gradient"):
     
     for n in range(1, nt):
         theta, _ = upstream_step(theta, u, dx, dt)
-        theta = apply_boundary_conditions(theta, BC)
+        theta = apply_boundary_conditions(theta, BC, fixed_value=None)
         results[n] = theta.copy()
     
     return results
@@ -44,10 +45,10 @@ x, g = model_spatial_grid(20, 0.2)
 t, ti = model_time_grid(300, 10)
 
 C1 = run_simulation(theta0, u=0.1, x=x, t=t)
-plot_snapshots(C1, x, dt=10, title="Test Case 1: Delta Initial Condition"))
+plot_snapshots(C1, x, dt=10, title="Test Case 1: Delta Initial Condition")
         
 #test case two
-theta0_csv = load_and_interpolate_IC("data/initial_conditions.csv", x)
+theta0_csv = generate_intial_conditions("data/initial_conditions.csv", x)
 
 C2 = run_simulation(theta0_csv, u=0.1, x=x, t=t)
 plot_snapshots(C2, x, dt=10, title="Test Case 2: CSV Initial Condition")
@@ -91,7 +92,7 @@ rng = np.random.default_rng(123)
 u_pert = 0.1 * (1 + 0.1 * rng.standard.normal(len(x)))
 
 C5 = run_simulation(theta0, u_pert, x=x, t=t)
-plot_snapshots(C5, x, dt=10, title="Test Case 5: Perturbed Verlocity")
+plot_snapshots(C5, x, dt=10, title="Test Case 5: Perturbed Velocity")
 
 
 
