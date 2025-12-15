@@ -1,18 +1,9 @@
-###This code should loop time steps, save results to a history to use for graphs, allows users to test an initial exponential decay (test case 4), and allow users to add a variable stream velocity with a 10% perturbation 
+###This code should loop time steps, save results to a history to use for graphs, allow users to test an initial exponential decay (test case 4), and allow users to add a variable stream velocity with a 10% perturbation 
 
-def run_simulation (theta0, U, dx, dt, nt, boundaryconditions, advectionsolver, apply_decay=False, decay_rate=0.0, apply_perturbation=False) #recheck through other files to use the correct boundary conditions and advection solver variable name, and make sure the rest of the variables align
+import numpy as np
 
-  theta = theta0.copy() #create copy of initial concentration at x=0 to avoid overwriting the user's input
-  N = len(theta)
-  
-### Inputting the user's velocity into an array
-  if np.isscalar (U):
-    U_input = np.full(N, float(U))
-  else:
-    U_input = np.asarray(U, dtype=float) 
+def run_simulation (theta, U, dx, dt, nt, apply_boundary_conditions, upstream_step, apply_decay=False, decay_rate=0.0, apply_perturbation=False):
 
-#add a warning func here if an unusable value is input by the user?? ask hannah t
-  
 ### Allowing exponentially decaying initial concentration (Test Case 4)
   if apply_decay:
     decay = np.exp(-decay_rate * np.arange(nt) * dt)
@@ -27,14 +18,14 @@ def run_simulation (theta0, U, dx, dt, nt, boundaryconditions, advectionsolver, 
   
 ### Creating an array of results to save concentration for graphs
   theta_result = np.zeros((nt, N))
-  theta_result[0] = theta.copy()
+  theta_result[0] = theta0.copy()
   
 ### Time Step Loop
-  for n in range(1, nt);
+  for n in range(1, nt):
     theta[0] = theta[0] * decay[n] 
-    theta = boundaryconditions(theta) #change boundary conditions variable name
-    theta, _ = advectionsolver(theta, U_input, dx, dt) #change solver variable name
-    theta_result[n] = theta.copy()
+    theta = apply_boundary_conditions(theta) 
+    theta, _ = upstream_step(theta, U_input, dx, dt) #change solver variable name
+    theta_result[n] = theta0.copy()
 
   return theta_result, U_input
 
