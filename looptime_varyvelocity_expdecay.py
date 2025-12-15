@@ -15,6 +15,7 @@ def run_simulation (theta, U, dx, dt, nt, apply_boundary_conditions, upstream_st
     perturb = 0.10 
     noise = perturb*np.random.randn(N)
     U_input = U_input*(1 + noise) #applies the 10% perturbation 
+    U_input = U
   
 ### Creating an array of results to save concentration for graphs
   theta_result = np.zeros((nt, N))
