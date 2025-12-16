@@ -4,6 +4,10 @@ import numpy as np
 
 def run_simulation (theta, U, dx, dt, nt, apply_boundary_conditions, upstream_step, apply_decay=False, decay_rate=0.0, apply_perturbation=False):
 
+### Define N and U 
+  N = len(theta)
+  U_input = U #to ensure U is always defined
+  
 ### Allowing exponentially decaying initial concentration (Test Case 4)
   if apply_decay:
     decay = np.exp(-decay_rate * np.arange(nt) * dt)
@@ -15,19 +19,16 @@ def run_simulation (theta, U, dx, dt, nt, apply_boundary_conditions, upstream_st
     perturb = 0.10 
     noise = perturb*np.random.randn(N)
     U_input = U_input*(1 + noise) #applies the 10% perturbation 
-    U_input = U
   
 ### Creating an array of results to save concentration for graphs
   theta_result = np.zeros((nt, N))
-  theta_result[0] = theta0.copy()
+  theta_result[0] = theta.copy()
   
 ### Time Step Loop
   for n in range(1, nt):
     theta[0] = theta[0] * decay[n] 
     theta = apply_boundary_conditions(theta) 
     theta, _ = upstream_step(theta, U_input, dx, dt) #change solver variable name
-    theta_result[n] = theta0.copy()
+    theta_result[n] = theta.copy()
 
   return theta_result, U_input
-
-
