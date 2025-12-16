@@ -26,3 +26,4 @@ def apply_boundary_conditions(updated_theta, BC, fixed_value=None):
 		raise ValueError("Unknown BC")
 	
 	return theta_BC
+
