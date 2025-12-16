@@ -1,7 +1,7 @@
 #BC = Boundary Conditions, the values at the edge of the model domain
 #Left boundary (upstream) x = theta, Right boundary (downstream) x = L
 #Apply BC to updated concentration array (updated_theta)
-#theta is numpy array of concentration at a given time
+#theta is numpy array of concentration at a given time.
 
 def apply_boundary_conditions(updated_theta, BC, fixed_value=None):
 	theta_BC = updated_theta.copy()
@@ -26,4 +26,5 @@ def apply_boundary_conditions(updated_theta, BC, fixed_value=None):
 		raise ValueError("Unknown BC")
 	
 	return theta_BC
+	
 
