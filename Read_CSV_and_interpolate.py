@@ -19,4 +19,6 @@ def generate_initial_conditions(x_grid, mode='csv',file=None, pulse_location=Non
         idx = np.argmin(np.abs(x_grid - pulse_location)) #finds the index of the nearest grid point to the location of the spike 
         theta[idx] = pulse_strength #puts the spike at that grid point
         return theta 
+    else:
+        raise ValueError("mode must be 'CSV' or 'delta'")
 
