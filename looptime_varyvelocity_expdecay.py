@@ -15,7 +15,7 @@ def run_simulation (theta, U, dx, dt, nt, apply_boundary_conditions, upstream_st
     decay = np.ones(nt)
   
 ### Allowing a variable stream velocity profile (Test Case 5)
-  if apply_perturbation: #check if perturbation has already been created in other files
+  if apply_perturbation:
     perturb = 0.10 
     noise = perturb*np.random.randn(N)
     U_input = U_input*(1 + noise) #applies the 10% perturbation 
