@@ -6,6 +6,10 @@
 def apply_boundary_conditions(updated_theta, BC, fixed_value=None):
 	
     theta_BC = updated_theta.copy()
+	
+	#validation check 
+	if BC in ("fixed", "inflow") and fixed_value is None:
+		raise ValueError("fixed_value must be provided for fixed or inflow BC")
 
     if BC == "fixed":
         theta_BC[0] = fixed_value #[0] to get the first value (upstream boundary)

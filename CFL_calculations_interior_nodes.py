@@ -12,6 +12,8 @@
 #code gives theta_new (concentration array), cfl (CFL number) using upsteam_step function created
 #####################################################################
 
+import numpy as np
+
 def upstream_step(theta, u, dx, dt): #creating function
   theta = np.asarray(theta, dtype=float) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
   N = len(theta)
