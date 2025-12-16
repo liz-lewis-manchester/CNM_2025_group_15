@@ -13,6 +13,7 @@
 #####################################################################
 
 import numpy as np
+import warnings
 
 def upstream_step(theta, u, dx, dt): #creating function
   theta = np.asarray(theta, dtype=float) #converting theta data to arrays using np.asarray instead of np.array to reduce memory usage
@@ -43,10 +44,10 @@ def upstream_step(theta, u, dx, dt): #creating function
   cfl = np.max(np.abs(u_array))*dt/dx #finding cfl number for advection equation
 
   if cfl>1: #warning for time steps too large
-    print (f"WARNING - CFL value is {cfl:.3f}, which is > 1, therefore the stability threshold is exceeded")
+    warnings.warn(f"WARNING - CFL value is {cfl:.3f}, which is > 1, therefore the stability threshold is exceeded", RuntimeWarning)
 
   elif cfl>0.8:#making user aware of values that are unstable
-    print (f"NOTE - CFL value is {cfl:.3f}, which is close to 1, therefore approaching stability threshold")
+    warnings.warn(f"CFL value is {cfl:.3f}, which is close to 1, therefore approaching stability threshold", RuntimeWarning)
 
   theta_new = theta.copy() #output value, copy so users input values are not messed with
   
@@ -61,4 +62,3 @@ def upstream_step(theta, u, dx, dt): #creating function
   theta_new[i] = theta[i] - (u_i*dt/dx)*upstream_difference
 
   return theta_new, float(cfl) #function gives these values
-
