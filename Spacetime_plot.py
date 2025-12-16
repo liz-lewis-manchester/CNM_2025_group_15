@@ -90,13 +90,3 @@ def plot_spacetime(
 
     # Return the path to the saved figure (useful for testing/logging)
     return save_path
-
-from plotting import plot_spacetime
-
-plot_spacetime(
-    x=x,
-    t=t,
-    theta=theta,
-    output_dir="results",
-    filename="theta_spacetime.png"
-)
