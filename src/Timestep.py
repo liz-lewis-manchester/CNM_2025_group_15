@@ -1,5 +1,4 @@
 def run_one_timestep(theta, U, dx, dt, solver_func, BC, fixed_value=None): #runs one timestep
-  dtheta_dt = solver_func(theta, U, dx) #computes the rate of change of concentration
-  theta_new = theta + dt * dtheta_dt #update concentration value
-  theta_new = apply_boundary_conditions(theta_new, BC, fixed_value) #apply boundary condtions 
-  return theta_new 
+  theta_new, cfl = solver_func(theta, U, dx, dt) #calls the solver to compute theta_new and cfl
+  theta_new = apply _boundary_conditions(theta_new, BC, fixed_value) #applys boundary conditions
+  return theta_new, cfl
