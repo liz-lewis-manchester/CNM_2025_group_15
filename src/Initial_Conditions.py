@@ -7,8 +7,8 @@ def generate_initial_conditions(x_grid, mode='csv',file=None, pulse_location=Non
         if file is None:
             raise ValueError("CSV mode requires file='path/to/file.csv'") #if CSV is not used, stops this mode with a message
         df = pd.read_csv(file) #read the CSV 
-        x_data = df["x"].values #extract data from CSV and returns a panda series which is then converted into a NumPy array
-        theta_data = df["concentration"].values # extract concentration data from CSV
+        x_data = df["Distance"].values #extract data from CSV and returns a panda series which is then converted into a NumPy array
+        theta_data = df["Concentration"].values # extract concentration data from CSV
         theta_initial = np.interp(x_grid, x_data, theta_data) #interpolates data onto the grid
         return theta_initial
     #for single spike test case 1 
