@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt #for graph plots
 import numpy as np 
 
-def function_snapshot (x, theta_history, t_grid, snapshot_times, save_dir="results"):  #function "function_snapshot" to create graph
+def function_snapshot (x_grid, theta_history, t_grid, snapshot_times, save_dir="results"):  #function "function_snapshot" to create graph
   #x = spatial grid
   #theta_history = 2D matrix of polutant concentrations over select time
   #t_grid = time values selected
