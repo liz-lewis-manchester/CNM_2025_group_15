@@ -4,7 +4,7 @@ import os
 os.makedirs("results", exist_ok=True)
 from pathlib import Path
 
-RESULTS_DIR = Path(__file__).resolve().parents[1] / "results"   # .../CNM_2025_group_15/results
+RESULTS_DIR = Path(__file__).resolve().parents[1] / "results" 
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 import matplotlib.pyplot as plt
@@ -40,7 +40,7 @@ def run_simulation(theta0, u, x, t, BC="zero_gradient", fixed_value=None, tau=No
     dt_out = t[1] - t[0]
     nt = len(t)
 
-    # compute internal timestep
+    #compute internal timestep
     umax = np.max(np.abs(u)) if not np.isscalar(u) else abs(u)
     dt_int = 0.8 * dx / umax
     nsub = int(np.ceil(dt_out / dt_int))
@@ -64,7 +64,7 @@ def run_simulation(theta0, u, x, t, BC="zero_gradient", fixed_value=None, tau=No
 
 def run_test_case(test_case: int, L=20.0, dx=0.2, T=300.0, dt=10.0):
 
-  #default grid for all test cases
+  #grid for all test cases
   x, _ = model_spatial_grid(L, dx)
   t, ti = model_time_grid(T, dt)
   dt_plot = t[1] - t[0]
@@ -79,13 +79,13 @@ def run_test_case(test_case: int, L=20.0, dx=0.2, T=300.0, dt=10.0):
           x=x,
           t=t,
           BC="inflow",
-          fixed_value=250
+          fixed_value=250 #concentration is 250 when distance is 0
       )
 
-      plot_spacetime(x, t, C1, output_dir=str(RESULTS_DIR), filename="tc1_spacetime.png", show=False)
+      plot_spacetime(x, t, C1, output_dir=str(RESULTS_DIR), filename="tc1_spacetime.png", show=False) #plots space time contour plot that is saved in results
       snapshot_times = [0, t[len(t)//3], t[2*len(t)//3], t[-1]]
-      function_snapshot(x, C1, t, snapshot_times, save_dir=str(RESULTS_DIR))
-      plot_snapshots(C1, x, dt=dt_plot, title="Test Case 1: Delta Initial Condition")      
+      function_snapshot(x, C1, t, snapshot_times, save_dir=str(RESULTS_DIR)) #concentration against distance plots saved in results for 4 time intervals
+      plot_snapshots(C1, x, dt=dt_plot, title="Test Case 1: Delta Initial Condition") #graphs displayed
 
       return
 
